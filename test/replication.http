@@ -1,0 +1,35 @@
+###
+GET http://localhost:4004/api/
+###
+GET http://localhost:4004/api/$metadata
+###
+GET http://localhost:4004/api/APIs
+    ?$count=true
+    &$top=10
+Accept: application/json
+###
+GET http://localhost:4004/api/APIs
+    ?$apply=groupby((ParentTechnicalName),aggregate(numberOfAPIs with sum as numberOfAPIsTotal))
+    &$orderby=numberOfAPIsTotal desc
+###
+GET http://localhost:4004/api/APIs
+    ?$apply=groupby((ServiceCode),aggregate(numberOfAPIs with sum as numberOfAPIsTotal))
+    &$orderby=numberOfAPIsTotal desc
+###
+GET http://localhost:4004/api/APIs
+    ?$apply=groupby((ServiceCode,ParentTechnicalName),aggregate(numberOfAPIs with sum as numberOfAPIsTotal))
+    &$orderby=numberOfAPIsTotal desc
+###
+GET http://localhost:4004/api/ServiceCodeVH
+###
+POST http://localhost:4004/api/loadAPIs
+Content-Type: application/json
+
+{
+    "BlockSize": 100
+}
+###
+POST http://localhost:4004/api/deleteAllAPIs
+Content-Type: application/json
+
+{}

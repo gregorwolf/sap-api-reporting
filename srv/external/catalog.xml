@@ -1,0 +1,728 @@
+<?xml version="1.0"?>
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="1.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Schema Namespace="SocialModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Comment">
+                <Key>
+                    <PropertyRef Name="id"></PropertyRef>
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="refId" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="commentTitle" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="commentText" Type="Edm.String" MaxLength="2000"></Property>
+                <Property Name="modifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="createdAt" Type="Edm.DateTime"></Property>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="firstName" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="lastName" Type="Edm.String" MaxLength="255"></Property>
+            </EntityType>
+            <EntityType Name="Ratings">
+                <Key>
+                    <PropertyRef Name="id"></PropertyRef>
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="refId" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="rating" Type="Edm.Single" Nullable="false"></Property>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="modifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="createdAt" Type="Edm.DateTime"></Property>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="firstName" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="lastName" Type="Edm.String" MaxLength="255"></Property>
+            </EntityType>
+            <EntityContainer Name="SocialEntities">
+                <EntitySet Name="Comments" EntityType="SocialModel.Comment"></EntitySet>
+                <EntitySet Name="Ratings" EntityType="SocialModel.Ratings"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="SolutionSchema" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Solution" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="SolutionType" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <NavigationProperty Name="Versions" Relationship="SolutionSchema.Solution_Versions" FromRole="SolutionPrincipal" ToRole="SolutionDependent"></NavigationProperty>
+            </EntityType>
+            <Association Name="Solution_Versions">
+                <End Type="SolutionSchema.Solution" Multiplicity="1" Role="SolutionPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="SolutionSchema.Solution" Multiplicity="*" Role="SolutionDependent"></End>
+            </Association>
+            <EntityContainer Name="SolutionContainer">
+                <EntitySet Name="Solutions" EntityType="SolutionSchema.Solution"></EntitySet>
+                <AssociationSet Name="Solution_Versions_Set" Association="SolutionSchema.Solution_Versions">
+                    <End EntitySet="Solutions" Role="SolutionPrincipal"></End>
+                    <End EntitySet="Solutions" Role="SolutionDependent"></End>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="ContentPackageModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ContentPackage">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="ShortText" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="Featured" Type="Edm.Boolean"></Property>
+                <Property Name="Scope" Type="Edm.String"></Property>
+                <Property Name="Description" Type="Edm.String"></Property>
+                <Property Name="Version" Type="Edm.String"></Property>
+                <Property Name="Category" Type="Edm.String" Nullable="false"></Property>
+                <Property Name="Mode" Type="Edm.String"></Property>
+                <Property Name="Vendor" Type="Edm.String"></Property>
+                <Property Name="OrgName" Type="Edm.String"></Property>
+                <Property Name="BusinessProcess" Type="Edm.String"></Property>
+                <Property Name="SupportedPlatforms" Type="Edm.String" Nullable="false"></Property>
+                <Property Name="Products" Type="Edm.String"></Property>
+                <Property Name="Industries" Type="Edm.String"></Property>
+                <Property Name="LineOfBusiness" Type="Edm.String"></Property>
+                <Property Name="Keywords" Type="Edm.String"></Property>
+                <Property Name="Countries" Type="Edm.String"></Property>
+                <Property Name="AvgRating" Type="Edm.Single"></Property>
+                <Property Name="RatingCount" Type="Edm.Int64"></Property>
+                <Property Name="PublishedAt" Type="Edm.DateTime"></Property>
+                <Property Name="PublishedBy" Type="Edm.String"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String"></Property>
+                <Property Name="PartnerContent" Type="Edm.String"></Property>
+                <Property Name="CertifiedBySap" Type="Edm.String"></Property>
+                <Property Name="CommunityContent" Type="Edm.String"></Property>
+                <Property Name="LicenseType" Type="Edm.String"></Property>
+                <Property Name="SupportInfo" Type="Edm.String"></Property>
+                <Property Name="AdditionalAttributes" Type="Edm.String" Nullable="true"></Property>
+                <Property Name="CommercialContent" Type="Edm.Boolean"></Property>
+                <Property Name="AppCenterTechName" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="PartnerCRMBP" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="Commercialized" Type="Edm.Boolean"></Property>
+                <Property Name="ProductId" Type="Edm.String" Nullable="true"></Property>
+                <Property Name="PartnerId" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="Type" Type="Edm.String" MaxLength="255"></Property>
+                <NavigationProperty Name="Artifacts" Relationship="ContentPackageModel.ContentPackage_Artifacts" FromRole="ContentPackagePrincipal" ToRole="ArtifactDependent"></NavigationProperty>
+                <NavigationProperty Name="Files" Relationship="ContentPackageModel.ContentPackage_Files" FromRole="ContentPackagePrincipal" ToRole="FileDependent"></NavigationProperty>
+                <NavigationProperty Name="Urls" Relationship="ContentPackageModel.ContentPackage_URLs" FromRole="ContentPackagePrincipal" ToRole="URLDependent"></NavigationProperty>
+                <NavigationProperty Name="MediaLinks" Relationship="ContentPackageModel.ContentPackage_MediaLinks" FromRole="ContentPackagePrincipal" ToRole="MediaLinkDependent"></NavigationProperty>
+                <NavigationProperty Name="Licenses" Relationship="ContentPackageModel.ContentPackage_Licenses" FromRole="ContentPackagePrincipal" ToRole="LicenseDependent"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="Artifact" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                    <PropertyRef Name="Type"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="Type" Type="Edm.String" Nullable="false"></Property>
+                <Property Name="DisplayName" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="SubType" Type="Edm.String"></Property>
+                <Property Name="reg_id" Type="Edm.String"></Property>
+                <Property Name="Version" Type="Edm.String"></Property>
+                <Property Name="Description" Type="Edm.String"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String"></Property>
+                <Property Name="ContentType" Type="Edm.String"></Property>
+                <Property Name="URI" Type="Edm.String"></Property>
+                <Property Name="State" Type="Edm.String"></Property>
+                <NavigationProperty Name="ContentPackages" Relationship="ContentPackageModel.Artifacts_ContentPackage" FromRole="ArtifactPrincipal" ToRole="ContentPackageDependent"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="File" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="FileName" Type="Edm.String" Nullable="false"></Property>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String"></Property>
+                <Property Name="Description" Type="Edm.String"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String"></Property>
+                <Property Name="Version" Type="Edm.String"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String"></Property>
+                <Property Name="ContentType" Type="Edm.String"></Property>
+            </EntityType>
+            <EntityType Name="Url">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String"></Property>
+                <Property Name="Description" Type="Edm.String"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String"></Property>
+                <Property Name="Url" Type="Edm.String"></Property>
+                <Property Name="Version" Type="Edm.String"></Property>
+            </EntityType>
+            <EntityType Name="MediaLink" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="reg_id"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String" Nullable="false"></Property>
+                <Property Name="Description" Type="Edm.String"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String"></Property>
+                <Property Name="Link" Type="Edm.String"></Property>
+                <Property Name="ContentType" Type="Edm.String"></Property>
+                <Property Name="Version" Type="Edm.String"></Property>
+            </EntityType>
+            <EntityType Name="Product">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="Title" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="600"></Property>
+                <Property Name="Description" Type="Edm.String"></Property>
+                <Property Name="ThirdParty" Type="Edm.Boolean"></Property>
+                <Property Name="Parent" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <NavigationProperty Name="Logo" Relationship="ContentPackageModel.Product_Logo" FromRole="ProductPrincipal" ToRole="AssetDependent"></NavigationProperty>
+                <NavigationProperty Name="ContentPackages" Relationship="ContentPackageModel.Product_ContentPackages" FromRole="ProductPrincipal" ToRole="ContentPackageDependent"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="Asset">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="Title" Type="Edm.String"></Property>
+                <Property Name="FileName" Type="Edm.String"></Property>
+                <Property Name="URL" Type="Edm.String"></Property>
+                <Property Name="ContentType" Type="Edm.String"></Property>
+                <Property Name="Type" Type="Edm.String"></Property>
+                <Property Name="Tags" Type="Edm.String"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityType Name="Partner">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="Title" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="600"></Property>
+                <Property Name="Description" Type="Edm.String"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <NavigationProperty Name="Logo" Relationship="ContentPackageModel.Partner_Logo" FromRole="PartnerPrincipal" ToRole="AssetDependent"></NavigationProperty>
+                <NavigationProperty Name="ContentPackages" Relationship="ContentPackageModel.Partner_ContentPackages" FromRole="PartnerPrincipal" ToRole="ContentPackageDependent"></NavigationProperty>
+            </EntityType>
+            <Association Name="ContentPackage_Artifacts">
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="1" Role="ContentPackagePrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.Artifact" Multiplicity="*" Role="ArtifactDependent"></End>
+            </Association>
+            <Association Name="Artifacts_ContentPackage">
+                <End Type="ContentPackageModel.Artifact" Multiplicity="1" Role="ArtifactPrincipal"></End>
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="*" Role="ContentPackageDependent"></End>
+            </Association>
+            <Association Name="ContentPackage_URLs">
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="1" Role="ContentPackagePrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.Url" Multiplicity="*" Role="URLDependent"></End>
+            </Association>
+            <Association Name="ContentPackage_Files">
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="1" Role="ContentPackagePrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.File" Multiplicity="*" Role="FileDependent"></End>
+            </Association>
+            <Association Name="ContentPackage_Licenses">
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="1" Role="ContentPackagePrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.File" Multiplicity="*" Role="LicenseDependent"></End>
+            </Association>
+            <Association Name="ContentPackage_MediaLinks">
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="1" Role="ContentPackagePrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.MediaLink" Multiplicity="*" Role="MediaLinkDependent"></End>
+            </Association>
+            <Association Name="Product_ContentPackages">
+                <End Type="ContentPackageModel.Product" Multiplicity="1" Role="ProductPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="*" Role="ContentPackageDependent"></End>
+            </Association>
+            <Association Name="Product_Logo">
+                <End Type="ContentPackageModel.Product" Multiplicity="1" Role="ProductPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.Asset" Multiplicity="*" Role="AssetDependent"></End>
+            </Association>
+            <Association Name="Partner_Logo">
+                <End Type="ContentPackageModel.Partner" Multiplicity="1" Role="PartnerPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.Asset" Multiplicity="*" Role="AssetDependent"></End>
+            </Association>
+            <Association Name="Partner_ContentPackages">
+                <End Type="ContentPackageModel.Partner" Multiplicity="1" Role="PartnerPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="ContentPackageModel.ContentPackage" Multiplicity="*" Role="ContentPackageDependent"></End>
+            </Association>
+            <EntityContainer Name="ContentEntities" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="ContentPackages" EntityType="ContentPackageModel.ContentPackage"></EntitySet>
+                <EntitySet Name="Artifacts" EntityType="ContentPackageModel.Artifact"></EntitySet>
+                <EntitySet Name="Urls" EntityType="ContentPackageModel.Url"></EntitySet>
+                <EntitySet Name="Files" EntityType="ContentPackageModel.File"></EntitySet>
+                <EntitySet Name="MediaLinks" EntityType="ContentPackageModel.MediaLink"></EntitySet>
+                <EntitySet Name="Licenses" EntityType="ContentPackageModel.File"></EntitySet>
+                <EntitySet Name="Products" EntityType="ContentPackageModel.Product"></EntitySet>
+                <EntitySet Name="Assets" EntityType="ContentPackageModel.Asset"></EntitySet>
+                <EntitySet Name="Partners" EntityType="ContentPackageModel.Partner"></EntitySet>
+                <AssociationSet Name="ContentPackage_Artifacts_Set" Association="ContentPackageModel.ContentPackage_Artifacts">
+                    <End EntitySet="ContentPackages" Role="ContentPackagePrincipal"></End>
+                    <End EntitySet="Artifacts" Role="ArtifactDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="Artifacts_ContentPackage_Set" Association="ContentPackageModel.Artifacts_ContentPackage">
+                    <End EntitySet="Artifacts" Role="ArtifactPrincipal"></End>
+                    <End EntitySet="ContentPackages" Role="ContentPackageDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="ContentPackage_URL_Set" Association="ContentPackageModel.ContentPackage_URLs">
+                    <End EntitySet="ContentPackages" Role="ContentPackagePrincipal"></End>
+                    <End EntitySet="Urls" Role="URLDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="ContentPackage_Files_Set" Association="ContentPackageModel.ContentPackage_Files">
+                    <End EntitySet="ContentPackages" Role="ContentPackagePrincipal"></End>
+                    <End EntitySet="Files" Role="FileDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="ContentPackage_Licenses_Set" Association="ContentPackageModel.ContentPackage_Licenses">
+                    <End EntitySet="ContentPackages" Role="ContentPackagePrincipal"></End>
+                    <End EntitySet="Licenses" Role="LicenseDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="ContentPackage_MediaLinks_Set" Association="ContentPackageModel.ContentPackage_MediaLinks">
+                    <End EntitySet="ContentPackages" Role="ContentPackagePrincipal"></End>
+                    <End EntitySet="MediaLinks" Role="MediaLinkDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="Product_ContentPackages_Set" Association="ContentPackageModel.Product_ContentPackages">
+                    <End EntitySet="Products" Role="ProductPrincipal"></End>
+                    <End EntitySet="ContentPackages" Role="ContentPackageDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="Product_Logo_Set" Association="ContentPackageModel.Product_Logo">
+                    <End EntitySet="Products" Role="ProductPrincipal"></End>
+                    <End EntitySet="Assets" Role="AssetDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="Partner_Logo_Set" Association="ContentPackageModel.Partner_Logo">
+                    <End EntitySet="Partners" Role="PartnerPrincipal"></End>
+                    <End EntitySet="Assets" Role="AssetDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="Partner_ContentPackages_Set" Association="ContentPackageModel.Partner_ContentPackages">
+                    <End EntitySet="Partners" Role="PartnerPrincipal"></End>
+                    <End EntitySet="ContentPackages" Role="ContentPackageDependent"></End>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="APIContent" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="API" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="ID" Type="Edm.String" MaxLength="100"></Property>
+                <Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="ServiceCode" Type="Edm.String" Nullable="false" MaxLength="10"></Property>
+                <Property Name="ServiceUrl" Type="Edm.String"></Property>
+                <Property Name="Deprecated" Type="Edm.Boolean"></Property>
+                <Property Name="hasManagedContent" Type="Edm.Boolean"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ParentTechnicalName" Type="Edm.String"></Property>
+                <Property Name="State" Type="Edm.String" MaxLength="20"></Property>
+                <Property Name="ChangeLog" Type="Edm.String"></Property>
+                <Property Name="ExternalDocs" Type="Edm.String"></Property>
+                <Property Name="ReleaseInfo" Type="Edm.String"></Property>
+                <Property Name="MultiVersion" Type="Edm.Boolean"></Property>
+                <NavigationProperty Name="Versions" Relationship="APIContent.API_Versions" FromRole="APIPrincipal" ToRole="APIDependent"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="PolicyTemplate" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ID" Type="Edm.String" MaxLength="100"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <Association Name="API_Versions">
+                <End Type="APIContent.API" Multiplicity="1" Role="APIPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="APIContent.API" Multiplicity="*" Role="APIDependent"></End>
+            </Association>
+            <EntityContainer Name="APIContent">
+                <EntitySet Name="APIs" EntityType="APIContent.API"></EntitySet>
+                <EntitySet Name="PolicyTemplates" EntityType="APIContent.PolicyTemplate"></EntitySet>
+                <AssociationSet Name="API_Versions_Set" Association="APIContent.API_Versions">
+                    <End EntitySet="APIs" Role="APIPrincipal"></End>
+                    <End EntitySet="APIs" Role="APIDependent"></End>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="AttachmentContent" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Attachment" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="4096"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ParentID" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ParentType" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+            </EntityType>
+            <EntityContainer Name="AttachmentContent">
+                <EntitySet Name="Attachment" EntityType="AttachmentContent.Attachment"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="DataHubContentModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="DataHub" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="FileName" Type="Edm.String" Nullable="true"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityContainer Name="DataHubContent">
+                <EntitySet Name="DataHub" EntityType="DataHubContentModel.DataHub"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="EADContentModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Scenario">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="4096"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="EADType" Type="Edm.String" Nullable="false"></Property>
+                <Property Name="FileName" Type="Edm.String" Nullable="true"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <NavigationProperty Name="ScenarioModels" Relationship="EADContentModel.Scenario_ScenarioModels" FromRole="ScenarioPrincipal" ToRole="ScenarioModelDependent"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="ScenarioModel" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+            </EntityType>
+            <Association Name="Scenario_ScenarioModels">
+                <End Type="EADContentModel.Scenario" Multiplicity="1" Role="ScenarioPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="EADContentModel.ScenarioModel" Multiplicity="*" Role="ScenarioModelDependent"></End>
+            </Association>
+            <EntityContainer Name="EADContent">
+                <EntitySet Name="Scenarios" EntityType="EADContentModel.Scenario"></EntitySet>
+                <EntitySet Name="ScenarioModels" EntityType="EADContentModel.ScenarioModel"></EntitySet>
+                <AssociationSet Name="Scenario_ScenarioModels_Set" Association="EADContentModel.Scenario_ScenarioModels">
+                    <End EntitySet="Scenarios" Role="ScenarioPrincipal"></End>
+                    <End EntitySet="ScenarioModels" Role="ScenarioModelDependent"></End>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="LiveProcessContent" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Process" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="2000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityType Name="BRProject" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="2000"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityType Name="VisibilityScenario" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="2000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityContainer Name="LiveProcessContent">
+                <EntitySet Name="Process" EntityType="LiveProcessContent.Process"></EntitySet>
+                <EntitySet Name="BRProject" EntityType="LiveProcessContent.BRProject"></EntitySet>
+                <EntitySet Name="VisibilityScenario" EntityType="LiveProcessContent.VisibilityScenario"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="SAPAIContent" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="AIAsset" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="2000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="Type" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Language" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Domain" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Subdomain" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Capability" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Filesize" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Packageformat" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="NexusPath" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Gitlocation" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityContainer Name="SAPAIContent">
+                <EntitySet Name="AIAssets" EntityType="SAPAIContent.AIAsset"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="IOTBridgeConfigurationModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="IOTBridgeConfiguration" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="100"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="FileName" Type="Edm.String" Nullable="true"></Property>
+            </EntityType>
+            <EntityContainer Name="IOTBridge">
+                <EntitySet Name="IOTBridgeConfigurations" EntityType="IOTBridgeConfigurationModel.IOTBridgeConfiguration"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="BOInterfaceSchema" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="BOInterface" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="State" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityContainer Name="BOInterfaceContainer">
+                <EntitySet Name="BOInterfaceEntities" EntityType="BOInterfaceSchema.BOInterface"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="BusinessRulesContentModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="BusinessRules" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="255"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityContainer Name="BusinessRulesContent">
+                <EntitySet Name="BusinessRules" EntityType="BusinessRulesContentModel.BusinessRules"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="EventModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Event" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="State" Type="Edm.String" MaxLength="20"></Property>
+                <Property Name="ChangeLog" Type="Edm.String"></Property>
+            </EntityType>
+            <EntityContainer Name="EventContent">
+                <EntitySet Name="Events" EntityType="EventModel.Event"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="CdsViewsContentModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="CDSVIEW" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="TechnicalName"></PropertyRef>
+                </Key>
+                <Property Name="TechnicalName" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="reg_id" Type="Edm.String" MaxLength="200"></Property>
+                <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="Description" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="Url" Type="Edm.String" Nullable="true"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="State" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <EntityContainer Name="CdsViewsContent">
+                <EntitySet Name="CdsViews" EntityType="CdsViewsContentModel.CDSVIEW"></EntitySet>
+            </EntityContainer>
+        </Schema>
+        <Schema Namespace="OrganizationModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="OrgDetailsType">
+                <Key>
+                    <PropertyRef Name="orgName"></PropertyRef>
+                </Key>
+                <Property Name="orgName" Type="Edm.String" Nullable="false" MaxLength="32"></Property>
+                <Property Name="orgid" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="displayName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="lob" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="vendor" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="description" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="address" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="primaryContactEmail" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="supportInfo" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="oDPublishEnabled" Type="Edm.Boolean"></Property>
+                <Property Name="allowCommunityContent" Type="Edm.Boolean"></Property>
+                <Property Name="partnerCRMBP" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="allowCommercialContent" Type="Edm.Boolean"></Property>
+                <NavigationProperty Name="orgUsers" Relationship="OrganizationModel.Org_User_Association" FromRole="OrgDetailsPrincipal" ToRole="OrgUserDependent"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="UserType">
+                <Key>
+                    <PropertyRef Name="id"></PropertyRef>
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="defaultOrg" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="firstName" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="lastName" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+                <Property Name="email" Type="Edm.String" Nullable="true" MaxLength="255"></Property>
+            </EntityType>
+            <EntityType Name="OrgUserType">
+                <Key>
+                    <PropertyRef Name="orgName"></PropertyRef>
+                    <PropertyRef Name="userId"></PropertyRef>
+                    <PropertyRef Name="roleName"></PropertyRef>
+                </Key>
+                <Property Name="orgName" Type="Edm.String" Nullable="false" MaxLength="32"></Property>
+                <Property Name="userId" Type="Edm.String" Nullable="false" MaxLength="32"></Property>
+                <Property Name="roleName" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <NavigationProperty Name="users" Relationship="OrganizationModel.OrgUser_User_Association" FromRole="OrgUserPrincipal" ToRole="UsersDependent"></NavigationProperty>
+                <NavigationProperty Name="orgs" Relationship="OrganizationModel.User_Org_Association" FromRole="OrgUserPrincipal" ToRole="OrgDetailsDependent"></NavigationProperty>
+            </EntityType>
+            <Association Name="Org_User_Association">
+                <End Type="OrganizationModel.OrgDetailsType" Multiplicity="*" Role="OrgDetailsPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="OrganizationModel.OrgUserType" Multiplicity="*" Role="OrgUserDependent"></End>
+            </Association>
+            <Association Name="User_Org_Association">
+                <End Type="OrganizationModel.OrgUserType" Multiplicity="*" Role="OrgUserPrincipal"></End>
+                <End Type="OrganizationModel.OrgDetailsType" Multiplicity="*" Role="OrgDetailsDependent"></End>
+            </Association>
+            <Association Name="OrgUser_User_Association">
+                <End Type="OrganizationModel.OrgUserType" Multiplicity="1" Role="OrgUserPrincipal"></End>
+                <End Type="OrganizationModel.UserType" Multiplicity="1" Role="UsersDependent"></End>
+            </Association>
+            <EntityContainer Name="OrganizationEntities">
+                <EntitySet Name="OrgDetails" EntityType="OrganizationModel.OrgDetailsType"></EntitySet>
+                <EntitySet Name="OrgUsers" EntityType="OrganizationModel.OrgUserType"></EntitySet>
+                <EntitySet Name="Users" EntityType="OrganizationModel.UserType"></EntitySet>
+                <AssociationSet Name="Org_User_AssociationSet" Association="OrganizationModel.Org_User_Association">
+                    <End EntitySet="OrgDetails" Role="OrgDetailsPrincipal"></End>
+                    <End EntitySet="OrgUsers" Role="OrgUserDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="User_Org_AssociationSet" Association="OrganizationModel.User_Org_Association">
+                    <End EntitySet="OrgUsers" Role="OrgUserPrincipal"></End>
+                    <End EntitySet="OrgDetails" Role="OrgDetailsDependent"></End>
+                </AssociationSet>
+                <AssociationSet Name="OrgUser_User_AssociationSet" Association="OrganizationModel.OrgUser_User_Association">
+                    <End EntitySet="OrgUsers" Role="OrgUserPrincipal"></End>
+                    <End EntitySet="Users" Role="UsersDependent"></End>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

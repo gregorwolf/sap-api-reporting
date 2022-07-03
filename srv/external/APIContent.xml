@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="1.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Schema Namespace="APIContent" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="API" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="100"></Property>
+                <Property Name="ID" Type="Edm.String" MaxLength="100"></Property>
+                <Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="ServiceCode" Type="Edm.String" Nullable="false" MaxLength="10"></Property>
+                <Property Name="ServiceUrl" Type="Edm.String"></Property>
+                <Property Name="Deprecated" Type="Edm.Boolean"></Property>
+                <Property Name="hasManagedContent" Type="Edm.Boolean"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ParentTechnicalName" Type="Edm.String"></Property>
+                <Property Name="State" Type="Edm.String" MaxLength="20"></Property>
+                <Property Name="ChangeLog" Type="Edm.String"></Property>
+                <Property Name="ExternalDocs" Type="Edm.String"></Property>
+                <Property Name="ReleaseInfo" Type="Edm.String"></Property>
+                <Property Name="MultiVersion" Type="Edm.Boolean"></Property>
+                <NavigationProperty Name="Versions" Relationship="APIContent.API_Versions" FromRole="APIPrincipal" ToRole="APIDependent"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="PolicyTemplate" m:HasStream="true">
+                <Key>
+                    <PropertyRef Name="Name"></PropertyRef>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255"></Property>
+                <Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="256"></Property>
+                <Property Name="ID" Type="Edm.String" MaxLength="100"></Property>
+                <Property Name="ShortText" Type="Edm.String" MaxLength="1000"></Property>
+                <Property Name="Version" Type="Edm.String" MaxLength="10"></Property>
+                <Property Name="CreatedAt" Type="Edm.DateTime"></Property>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="256"></Property>
+                <Property Name="ModifiedAt" Type="Edm.DateTime"></Property>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="256"></Property>
+            </EntityType>
+            <Association Name="API_Versions">
+                <End Type="APIContent.API" Multiplicity="1" Role="APIPrincipal">
+                    <OnDelete Action="Cascade"></OnDelete>
+                </End>
+                <End Type="APIContent.API" Multiplicity="*" Role="APIDependent"></End>
+            </Association>
+            <EntityContainer Name="APIContent">
+                <EntitySet Name="APIs" EntityType="APIContent.API"></EntitySet>
+                <EntitySet Name="PolicyTemplates" EntityType="APIContent.PolicyTemplate"></EntitySet>
+                <AssociationSet Name="API_Versions_Set" Association="APIContent.API_Versions">
+                    <End EntitySet="APIs" Role="APIPrincipal"></End>
+                    <End EntitySet="APIs" Role="APIDependent"></End>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,6 @@
+###
+GET https://api.sap.com/odata/1.0/catalog.svc/APIContent.APIs
+    ?$top=10
+    &$filter=ServiceCode%20eq%20%27ODATA%27
+    &$inlinecount=allpages
+Accept: application/json
